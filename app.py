@@ -6,8 +6,10 @@ from langchain_core.output_parsers import StrOutputParser
 from langserve import add_routes
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
+from dotenv import load_dotenv
 
 # Set up environment variable for API key
+load_dotenv()
 os.environ["GOOGLE_API_KEY"] = os.getenv('gemini_key')
 
 # Initialize the model
