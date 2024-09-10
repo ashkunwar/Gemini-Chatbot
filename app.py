@@ -1,6 +1,5 @@
 import getpass
 import os
-import asyncio
 import streamlit as st
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -8,10 +7,6 @@ from langserve import add_routes
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
-import nest_asyncio
-
-# Allow nested async loops in Streamlit
-nest_asyncio.apply()
 
 # Set up environment variable for API key
 load_dotenv()
@@ -34,18 +29,16 @@ st.sidebar.text("You can enter your query in the main section below.")
 # Input box for user query
 input_text = st.text_input("Enter your question:", "")
 
-async def get_response(input_text):
-    return await chain.acall({"question": input_text})
-
 # Process the user input and generate the response
 if input_text:
     with st.spinner('Generating response...'):
-        # Ensure there's a running event loop
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        response = loop.run_until_complete(get_response(input_text))
-        st.write("**Chatbot Response:**")
-        st.write(response)
+        try:
+            # Use a synchronous call here to avoid async complications in Streamlit
+            response = chain.invoke({"question": input_text})
+            st.write("**Chatbot Response:**")
+            st.write(response)
+        except Exception as e:
+            st.error(f"An error occurred: {str(e)}")
 
 # Display chat history if needed
 if "history" not in st.session_state:
