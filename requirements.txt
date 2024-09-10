@@ -1,0 +1,14 @@
+langchain
+langchain_core
+python-dotenv
+streamlit
+langchain_community
+langserve
+uvicorn
+sse_starlette
+langchain-groq
+wikipedia
+arxiv
+langchainhub
+sentence_transformers
+langchain-objectbox
