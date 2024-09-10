@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 # Set up environment variable for API key
 load_dotenv()
-os.environ["GOOGLE_API_KEY"] = 'AIzaSyBpVjgos0JZ0yLIsbv_jl3zvHJlKEp11-Y'
+os.environ["GOOGLE_API_KEY"] = os.getenv('gemini')
 
 # Initialize the model
 model = ChatGoogleGenerativeAI(model="gemini-pro", convert_system_message_to_human=True)
