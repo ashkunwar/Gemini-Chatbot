@@ -6,16 +6,14 @@ from langchain_core.output_parsers import StrOutputParser
 from langserve import add_routes
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
-from dotenv import load_dotenv
 
 # Set up environment variable for API key
-load_dotenv()
-os.environ["GOOGLE_API_KEY"] = os.getenv('api')
+os.environ["GOOGLE_API_KEY"] = os.getenv('gemini_key')
 
 # Initialize the model
 model = ChatGoogleGenerativeAI(model="gemini-pro", convert_system_message_to_human=True)
 parser = StrOutputParser()
-chain = ChatPromptTemplate() | model | parser
+chain = prompt_template | model | parser
 
 # Streamlit app setup
 st.title("LangChain Chatbot Demo")
@@ -32,13 +30,9 @@ input_text = st.text_input("Enter your question:", "")
 # Process the user input and generate the response
 if input_text:
     with st.spinner('Generating response...'):
-        try:
-            # Use a synchronous call here to avoid async complications in Streamlit
-            response = chain.invoke({"question": input_text})
-            st.write("**Chatbot Response:**")
-            st.write(response)
-        except Exception as e:
-            st.error(f"An error occurred: {str(e)}")
+        response = chain.invoke({"question": input_text})
+        st.write("**Chatbot Response:**")
+        st.write(response)
 
 # Display chat history if needed
 if "history" not in st.session_state:
