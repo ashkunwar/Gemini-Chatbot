@@ -40,7 +40,9 @@ async def get_response(input_text):
 # Process the user input and generate the response
 if input_text:
     with st.spinner('Generating response...'):
-        loop = asyncio.get_event_loop()  # Ensure there's a running event loop
+        # Ensure there's a running event loop
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         response = loop.run_until_complete(get_response(input_text))
         st.write("**Chatbot Response:**")
         st.write(response)
