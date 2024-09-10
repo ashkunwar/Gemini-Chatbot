@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-os.environ["GOOGLE_API_KEY"] = os.getenv('gemini_key')
+os.environ["GOOGLE_API_KEY"] = os.getenv('api')
 
 
 system_template = "You are a helpful assistant. Please response to the user queries"
