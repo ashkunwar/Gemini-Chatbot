@@ -13,7 +13,10 @@ os.environ["GOOGLE_API_KEY"] = os.getenv('api')
 # Initialize the model
 model = ChatGoogleGenerativeAI(model="gemini-pro", convert_system_message_to_human=True)
 parser = StrOutputParser()
-chain = prompt_template | model | parser
+async def process_input_async(input_text):
+    prompt_template = ChatPromptTemplate()  # Assuming this should be defined here
+    chain = prompt_template | model | parser
+    return await chain.invoke({"question": input_text})
 
 # Streamlit app setup
 st.title("LangChain Chatbot Demo")
@@ -30,7 +33,8 @@ input_text = st.text_input("Enter your question:", "")
 # Process the user input and generate the response
 if input_text:
     with st.spinner('Generating response...'):
-        response = chain.invoke({"question": input_text})
+        # Run the async function inside the synchronous context using asyncio.run
+        response = asyncio.run(process_input_async(input_text))
         st.write("**Chatbot Response:**")
         st.write(response)
 
