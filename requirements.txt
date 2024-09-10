@@ -6,6 +6,7 @@ langchain_community
 langserve
 uvicorn
 sse_starlette
+fastapi
 langchain-groq
 wikipedia
 arxiv
