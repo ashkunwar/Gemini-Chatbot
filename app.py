@@ -5,11 +5,12 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
+import os
 
-load_dotenv()
+api_key = os.getenv("api")
 
+os.environ["GOOGLE_API_KEY"] = api_key
 
-os.environ["GOOGLE_API_KEY"] = os.getenv('api')
 
 
 system_template = "You are a helpful assistant. Please response to the user queries"
